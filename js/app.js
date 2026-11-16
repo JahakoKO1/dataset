@@ -204,6 +204,7 @@
     $("bookTitle").textContent = sheet.name;
     $("bookStats").innerHTML = "";
     $("adminStrip").hidden = !admin;
+    $("filters").hidden = admin;
 
     const e = entry();
     if (state.loading || !e) {
@@ -288,7 +289,7 @@
     ].join("") : "";
 
     const active = [state.route.dep, state.route.mun, state.route.col].filter(Boolean).length;
-    let html = total ? `<button class="btn mobile-only" data-act="filters" type="button" aria-controls="sidebar">Buscar${active ? ` (${active})` : ""}</button>` : "";
+    let html = total && !admin ? `<button class="btn mobile-only" data-act="filters" type="button" aria-controls="sidebar">Buscar${active ? ` (${active})` : ""}</button>` : "";
     if (admin) {
       if (e.dirty) {
         html += `<span class="unsaved">Cambios sin guardar</span>
