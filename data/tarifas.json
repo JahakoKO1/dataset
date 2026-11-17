@@ -1,6 +1,6 @@
 {
  "sheet": "Tarifas",
- "updatedAt": "2026-11-12T20:37:07.411Z",
+ "updatedAt": "2026-11-17T20:00:29.261Z",
  "sourceFile": "Tarifas.csv",
  "columns": [
   "N°",
@@ -73,7 +73,7 @@
    "5002",
    "Antioquia",
    "Abejorral",
-   "Acuerdo No 19 de 2021\nDecreto No 10 de 2022",
+   "Acuerdo No 19 de 2021\nDecreto No 10 de 1999",
    "2021",
    "48",
    "35-56",
@@ -3454,7 +3454,7 @@
    "Antioquia",
    "Segovia",
    "Acuerdo No 12 de 2018",
-   "2018",
+   "2000",
    "31",
    "19-29",
    "Consiste en los milajes definidos por la ley y adoptados por los acuerdos vigentes que aplicados a la base gravable determinan la cuantia del impuesto.\nLas siguientes son las tarifas del impuesto de industria y comercio.",
