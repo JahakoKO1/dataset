@@ -171,18 +171,27 @@
   }
 
   function filteredRows(data) {
-    const id = idCols(data.columns);
-    const { dep, mun } = state.route;
-    return data.rows
-      .map((row, i) => ({ row, i }))
-      .filter(({ row }) => (!dep || row[id.dep] === dep) && (!mun || row[id.mun] === mun));
-  }
+  const id = idCols(data.columns);
 
-  function matchesColumn(name) {
-    const words = norm(state.route.col).split(/\s+/).filter(Boolean);
-    const n = norm(name);
-    return words.every((w) => n.includes(w));
-  }
+  // En administración se muestran todos los registros
+  const { dep, mun } = state.route.mode === "admin"
+    ? { dep: "", mun: "" }
+    : state.route;
+
+  return data.rows
+    .map((row, i) => ({ row, i }))
+    .filter(({ row }) =>
+      (!dep || row[id.dep] === dep) &&
+      (!mun || row[id.mun] === mun)
+    );
+}
+
+function matchesColumn(name) {
+  const query = state.route.mode === "admin" ? "" : state.route.col;
+  const words = norm(query).split(/\s+/).filter(Boolean);
+  const n = norm(name);
+  return words.every((w) => n.includes(w));
+}
 
   // ---------- Render ----------
   function render() {
@@ -254,7 +263,7 @@
       $("content").innerHTML = `<div class="state"><strong>${esc(who)} no aparece en ${esc(sheet.name)}</strong><span class="muted">Este libro tiene ${plural(data.rows.length, "registro", "registros")}; prueba con otro municipio o limpia la búsqueda.</span><br><button class="text-btn" data-act="clear" type="button">Limpiar búsqueda</button></div>`;
       return;
     }
-    if (state.route.mun) renderFichas(data, rows, admin);
+    if (!admin && state.route.mun) renderFichas(data, rows, admin);
     else renderTable(data, rows, admin);
   }
 
@@ -294,7 +303,9 @@
     const total = data.rows.length;
     const shown = filteredRows(data).length;
     const dataCols = data.columns.filter((_, i) => ![id.n, id.dane, id.dep, id.mun].includes(i));
-    const colsShown = state.route.col ? dataCols.filter(matchesColumn).length : dataCols.length;
+    const colsShown = !admin && state.route.col
+  ? dataCols.filter(matchesColumn).length
+  : dataCols.length;
 
     $("bookMeta").textContent = sheet.desc;
     const stat = (value, of, label) => `<div><dt>${label}</dt><dd><span class="big">${value}</span>${of ? `<span class="of"> de ${of}</span>` : ""}</dd></div>`;
