@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dataset ICA Colombia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Barra lateral de navegación en Verde Bosque -->
+    <aside id="sidebar" class="sidebar" aria-label="Libros del dataset">
+      <div class="sidebar-brand">
+        <a class="product" href="#">
+          <svg class="mark" viewBox="0 0 28 28" width="32" height="32" aria-hidden="true">
+            <rect x="1" y="1" width="26" height="26" rx="8" fill="#63A8A4"/>
+            <path d="M8 8h12M8 12.5h12M8 17h7" stroke="#FBF5E2" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="19.5" cy="18.5" r="2.6" fill="none" stroke="#FBF5E2" stroke-width="1.8"/>
+          </svg>
+          <div class="product-info">
+            <span class="product-name">Dataset ICA</span>
+            <span class="product-scope">Colombia · Municipal</span>
+          </div>
+        </a>
+        <button id="closeMenuBtn" class="icon-only close-sidebar" type="button" aria-label="Cerrar menú">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+
+      <p class="nav-label">Libros tributarios</p>
+      <nav id="bookNav" class="book-nav"></nav>
+    </aside>
+
+    <!-- Contenedor principal derecho -->
+    <div class="workspace">
+      <!-- Barra superior de acciones y modo -->
+      <header class="topbar">
+        <button id="menuBtn" class="icon-only menu-btn" type="button" aria-label="Abrir libros" aria-controls="sidebar" aria-expanded="false">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+        <span class="topbar-hint">Impuesto de Industria y Comercio municipal</span>
+        <nav class="mode-tabs" aria-label="Modo">
+          <a href="#" data-mode="consulta" class="mode-tab">Consulta</a>
+          <a href="#" data-mode="admin" class="mode-tab">Administración</a>
+        </nav>
+        <button id="logoutBtn" class="btn btn-ghost" type="button" hidden>Cerrar sesión</button>
+        <button id="connectBtn" class="btn btn-ghost connect" type="button">
+          <span class="dot" aria-hidden="true"></span><span id="connectLabel">Conectar GitHub</span>
+        </button>
+      </header>
+
+      <!-- Hoja de trabajo -->
+      <main class="sheet" id="main">
+        <!-- Cabecera modular -->
+        <section class="book-head">
+          <div class="title-row">
+            <div class="title-text">
+              <span class="eyebrow">Libro activo</span>
+              <h1 id="bookTitle">Cargando…</h1>
+              <p id="bookMeta" class="meta"></p>
+            </div>
+            <div class="title-actions" id="titleActions"></div>
+          </div>
+          <dl id="bookStats" class="stats"></dl>
+        </section>
+
+        <!-- Barra horizontal de búsqueda (solo visible en modo Consulta) -->
+        <form id="filters" class="filters-bar" role="search" onsubmit="return false">
+          <div class="filters-grid">
+            <label class="field">
+              <span>Departamento</span>
+              <select id="depSelect"></select>
+            </label>
+            <label class="field">
+              <span>Municipio</span>
+              <select id="munSelect"></select>
+            </label>
+            <label class="field field-search">
+              <span>Filtrar columna o concepto</span>
+              <span class="input-icon">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4-4"/></svg>
+                <input id="colInput" type="search" autocomplete="off" placeholder="Ej.: tarifa, empleo, Art.">
+              </span>
+            </label>
+            <button id="clearFilters" class="btn btn-clear" type="button">Limpiar</button>
+          </div>
+        </form>
+
+        <!-- Franja de administración -->
+        <section id="adminStrip" class="admin-strip" hidden aria-label="Carga de CSV">
+          <label id="dropzone" class="dropzone" tabindex="0">
+            <input id="fileInput" type="file" accept=".csv,text/csv" hidden aria-describedby="fileHint">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V4"/><path d="m7.5 8.5 4.5-4.5 4.5 4.5"/><path d="M5 15v4h14v-4"/></svg>
+            <span><strong>Subir CSV de este libro</strong> <span class="muted">arrástralo aquí o haz clic</span></span>
+            <span id="fileHint" class="hint">Solo .csv exportado de Excel</span>
+          </label>
+          <div class="segmented" role="radiogroup" aria-label="Al subir un CSV">
+            <label><input type="radio" name="mode" value="replace" checked><span>Reemplazar todo</span></label>
+            <label><input type="radio" name="mode" value="append"><span>Agregar filas</span></label>
+          </div>
+        </section>
+
+        <div id="content" class="content"></div>
+      </main>
+    </div>
+  </div>
+
+  <div id="scrim" class="scrim" hidden></div>
+
+  <!-- Editor de registro -->
+  <dialog id="editDialog" class="drawer" aria-labelledby="editTitle">
+    <form id="editForm" method="dialog">
+      <header class="drawer-head">
+        <div>
+          <h2 id="editTitle">Editar registro</h2>
+          <p id="editSub" class="meta"></p>
+        </div>
+        <button class="icon-only" value="cancel" formnovalidate aria-label="Cerrar">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </header>
+      <div class="drawer-search">
+        <span class="input-icon">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4-4"/></svg>
+          <input id="fieldFilter" type="search" autocomplete="off" placeholder="Buscar campo" aria-label="Buscar campo">
+        </span>
+        <span id="fieldCount" class="meta"></span>
+      </div>
+      <div id="editFields" class="drawer-body"></div>
+      <footer class="drawer-foot">
+        <span id="editChanged" class="meta"></span>
+        <span class="spacer"></span>
+        <button class="btn" value="cancel" formnovalidate>Cancelar</button>
+        <button id="applyEdit" class="btn btn-primary" type="button">Aplicar cambios</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <!-- Acceso a administración -->
+  <dialog id="loginDialog" class="modal" aria-labelledby="loginTitle">
+    <form id="loginForm">
+      <h2 id="loginTitle">Acceso a administración</h2>
+      <p class="meta">Ingresa tus credenciales para cargar, editar y guardar los libros del dataset.</p>
+      <label class="field">
+        <span>Usuario</span>
+        <input id="loginUser" type="text" autocomplete="username" spellcheck="false" required>
+      </label>
+      <label class="field">
+        <span>Contraseña</span>
+        <input id="loginPass" type="password" autocomplete="current-password" required>
+      </label>
+      <p id="loginMsg" class="meta" role="alert"></p>
+      <div class="modal-actions">
+        <span class="spacer"></span>
+        <button id="loginCancel" class="btn" type="button">Cancelar</button>
+        <button class="btn btn-primary" type="submit">Ingresar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Conexión con GitHub -->
+  <dialog id="settingsDialog" class="modal" aria-labelledby="settingsTitle">
+    <form method="dialog">
+      <h2 id="settingsTitle">Conexión con GitHub</h2>
+      <p class="meta">Los libros se guardan como archivos JSON en <a id="repoLink" target="_blank" rel="noopener"></a>. Para guardar cambios se necesita un token personal con permiso <b>Contents: Read and write</b> sobre ese repositorio.</p>
+      <label class="field">
+        <span>Token personal</span>
+        <input id="tokenInput" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_…" aria-describedby="tokenNote">
+      </label>
+      <p id="tokenNote" class="notice">El token queda guardado solo en este navegador. No lo uses en computadores compartidos y quítalo al terminar.</p>
+      <p id="settingsMsg" class="meta" role="status"></p>
+      <div class="modal-actions">
+        <button id="removeTokenBtn" class="text-btn danger" type="button">Quitar token</button>
+        <span class="spacer"></span>
+        <button value="cancel" class="btn" formnovalidate>Cerrar</button>
+        <button id="verifyTokenBtn" class="btn btn-primary" type="button">Verificar y guardar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/csv.js"></script>
+  <script src="js/github.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
