@@ -330,9 +330,9 @@ function matchesColumn(name) {
         html += `<button class="btn" data-act="download" type="button">Descargar CSV</button>`;
       }
 
-} else if (total) {
-  // En Consulta ya no se muestra Descargar CSV
-}
+      } else if (total) {
+        // En Consulta ya no se muestra Descargar CSV
+      }
 
   function skeleton() {
     const row = `<tr>${"<td><div></div></td>".repeat(6)}</tr>`;
