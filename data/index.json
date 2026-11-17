@@ -1,0 +1,67 @@
+{
+ "territorialidad": {
+  "rows": 63,
+  "columns": 52,
+  "updatedAt": "2026-11-12T20:28:08.058Z"
+ },
+ "rst": {
+  "rows": 64,
+  "columns": 112,
+  "updatedAt": "2026-11-12T20:29:34.992Z"
+ },
+ "sector_financiero": {
+  "rows": 63,
+  "columns": 129,
+  "updatedAt": "2026-11-12T20:30:11.216Z"
+ },
+ "principios": {
+  "rows": 63,
+  "columns": 51,
+  "updatedAt": "2026-11-12T20:30:25.859Z"
+ },
+ "elementos_tributo": {
+  "rows": 63,
+  "columns": 139,
+  "updatedAt": "2026-11-12T20:30:51.292Z"
+ },
+ "regimen_preferencial": {
+  "rows": 63,
+  "columns": 72,
+  "updatedAt": "2026-11-12T20:30:56.932Z"
+ },
+ "actividades_no_sujetas": {
+  "rows": 63,
+  "columns": 33,
+  "updatedAt": "2026-11-12T20:31:09.626Z"
+ },
+ "avisos_tableros": {
+  "rows": 63,
+  "columns": 60,
+  "updatedAt": "2026-11-12T20:31:13.633Z"
+ },
+ "deducciones_exclusiones": {
+  "rows": 63,
+  "columns": 33,
+  "updatedAt": "2026-11-12T20:31:32.487Z"
+ },
+ "sobretasa_bomberil": {
+  "rows": 63,
+  "columns": 43,
+  "updatedAt": "2026-11-12T20:31:59.476Z"
+ },
+ "exenciones_incentivos": {
+  "rows": 63,
+  "columns": 140,
+  "updatedAt": "2026-11-12T20:37:01.546Z"
+ },
+ "tarifas": {
+  "rows": 63,
+  "columns": 63,
+  "updatedAt": "2026-11-12T20:37:07.411Z"
+ },
+ "economia_digital": {
+  "rows": 63,
+  "columns": 23,
+  "updatedAt": "2026-11-12T20:37:12.042Z"
+ }
+}
