@@ -223,7 +223,6 @@
 
     renderFilters(e.data);
     renderTitle(sheet, e);
-    renderSummary();
 
     const { data } = e;
     if (!data.rows.length) {
@@ -232,6 +231,23 @@
         : `<span class="muted">Cuando el equipo suba el CSV de “${esc(sheet.name)}”, sus municipios aparecerán aquí.</span><br><a class="text-btn" href="${buildHash({ ...state.route, mode: "admin" })}">Ir a administración</a>`}</div>`;
       return;
     }
+
+    // En modo Consulta, no mostrar ningún municipio hasta que el usuario seleccione o busque algo
+    const hasQuery = Boolean(state.route.dep || state.route.mun || state.route.col);
+    if (!admin && !hasQuery) {
+      $("content").innerHTML = `
+        <div class="empty-query">
+          <div class="empty-query-icon">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"/><path d="m20 20-4.3-4.3"/>
+            </svg>
+          </div>
+          <h2>Selecciona un municipio o departamento</h2>
+          <p>Usa los filtros superiores para consultar la información tributaria de <strong>${esc(sheet.name)}</strong>. Hay ${plural(data.rows.length, "municipio disponible", "municipios disponibles")} en este libro.</p>
+        </div>`;
+      return;
+    }
+
     const rows = filteredRows(data);
     if (!rows.length) {
       const who = state.route.mun || state.route.dep;
@@ -302,17 +318,6 @@
       html += `<button class="btn" data-act="download" type="button">Descargar CSV</button>`;
     }
     $("titleActions").innerHTML = html;
-  }
-
-  function renderSummary() {
-    const { dep, mun, col } = state.route;
-    const chips = [];
-    if (dep) chips.push(["dep", dep]);
-    if (mun) chips.push(["mun", mun]);
-    if (col) chips.push(["col", `Columna: ${col}`]);
-    $("filterSummary").hidden = !chips.length;
-    $("filterSummary").innerHTML = chips.map(([k, v]) => `<span class="chip">${esc(v)}<button type="button" data-unset="${k}" aria-label="Quitar ${esc(v)}">
-      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></span>`).join("");
   }
 
   function skeleton() {
@@ -728,10 +733,6 @@
       t = setTimeout(() => go({ col: ev.target.value.trim() }), 180);
     });
     $("clearFilters").addEventListener("click", () => go({ dep: "", mun: "", col: "" }));
-    $("filterSummary").addEventListener("click", (ev) => {
-      const b = ev.target.closest("[data-unset]");
-      if (b) go({ [b.dataset.unset]: "" });
-    });
 
     $("main").addEventListener("click", (ev) => {
       const act = ev.target.closest("[data-act]");

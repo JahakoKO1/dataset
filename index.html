@@ -11,92 +11,101 @@
 </head>
 <body>
   <div class="app">
-    <!-- Barra superior: producto, modo (consulta / administración) y conexión -->
-    <header class="topbar">
-      <button id="menuBtn" class="icon-only menu-btn" type="button" aria-label="Abrir libros y filtros" aria-controls="sidebar" aria-expanded="false">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-      </button>
-      <a class="product" href="#">
-        <svg class="mark" viewBox="0 0 28 28" width="26" height="26" aria-hidden="true">
-          <rect x="1" y="1" width="26" height="26" rx="9" fill="var(--accent)"/>
-          <path d="M8 8h12M8 12.5h12M8 17h7" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
-          <circle cx="19.5" cy="18.5" r="2.6" fill="none" stroke="#fff" stroke-width="1.8"/>
-        </svg>
-        <span class="product-name">Dataset ICA Colombia</span>
-        <span class="product-scope">Impuesto de Industria y Comercio municipal</span>
-      </a>
-      <nav class="mode-tabs" aria-label="Modo">
-        <a href="#" data-mode="consulta" class="mode-tab">Consulta</a>
-        <a href="#" data-mode="admin" class="mode-tab">Administración</a>
-      </nav>
-      <button id="logoutBtn" class="btn btn-ghost" type="button" hidden>Cerrar sesión</button>
-      <button id="connectBtn" class="btn btn-ghost connect" type="button">
-        <span class="dot" aria-hidden="true"></span><span id="connectLabel">Conectar GitHub</span>
-      </button>
-    </header>
-
-    <!-- Barra lateral: libros y búsqueda -->
-    <aside id="sidebar" class="sidebar" aria-label="Libros y búsqueda">
-      <div class="sidebar-head">
-        <span>Libros y búsqueda</span>
-        <button id="closeMenuBtn" class="icon-only" type="button" aria-label="Cerrar">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    <!-- Barra lateral de navegación en Verde Bosque -->
+    <aside id="sidebar" class="sidebar" aria-label="Libros del dataset">
+      <div class="sidebar-brand">
+        <a class="product" href="#">
+          <svg class="mark" viewBox="0 0 28 28" width="32" height="32" aria-hidden="true">
+            <rect x="1" y="1" width="26" height="26" rx="8" fill="#63A8A4"/>
+            <path d="M8 8h12M8 12.5h12M8 17h7" stroke="#FBF5E2" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="19.5" cy="18.5" r="2.6" fill="none" stroke="#FBF5E2" stroke-width="1.8"/>
+          </svg>
+          <div class="product-info">
+            <span class="product-name">Dataset ICA</span>
+            <span class="product-scope">Colombia · Municipal</span>
+          </div>
+        </a>
+        <button id="closeMenuBtn" class="icon-only close-sidebar" type="button" aria-label="Cerrar menú">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
         </button>
       </div>
 
-      <form id="filters" class="filters" role="search" onsubmit="return false">
-        <p class="filters-title">Buscar</p>
-        <label class="field">
-          <span>Departamento</span>
-          <select id="depSelect"></select>
-        </label>
-        <label class="field">
-          <span>Municipio</span>
-          <select id="munSelect"></select>
-        </label>
-        <label class="field">
-          <span>Nombre de la columna</span>
-          <span class="input-icon">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4-4"/></svg>
-            <input id="colInput" type="search" autocomplete="off" placeholder="Ej.: tarifa, empleo, Art.">
-          </span>
-        </label>
-        <button id="clearFilters" class="text-btn" type="button">Limpiar búsqueda</button>
-      </form>
-
-      <p class="nav-label">Libros</p>
+      <p class="nav-label">Libros tributarios</p>
       <nav id="bookNav" class="book-nav"></nav>
     </aside>
 
-    <!-- Hoja de trabajo -->
-    <main class="sheet" id="main">
-      <section class="book-head">
-        <div class="title-row">
-          <div class="title-text">
-            <h1 id="bookTitle">Cargando…</h1>
-            <p id="bookMeta" class="meta"></p>
+    <!-- Contenedor principal derecho -->
+    <div class="workspace">
+      <!-- Barra superior de acciones y modo -->
+      <header class="topbar">
+        <button id="menuBtn" class="icon-only menu-btn" type="button" aria-label="Abrir libros" aria-controls="sidebar" aria-expanded="false">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+        <span class="topbar-hint">Impuesto de Industria y Comercio municipal</span>
+        <nav class="mode-tabs" aria-label="Modo">
+          <a href="#" data-mode="consulta" class="mode-tab">Consulta</a>
+          <a href="#" data-mode="admin" class="mode-tab">Administración</a>
+        </nav>
+        <button id="logoutBtn" class="btn btn-ghost" type="button" hidden>Cerrar sesión</button>
+        <button id="connectBtn" class="btn btn-ghost connect" type="button">
+          <span class="dot" aria-hidden="true"></span><span id="connectLabel">Conectar GitHub</span>
+        </button>
+      </header>
+
+      <!-- Hoja de trabajo -->
+      <main class="sheet" id="main">
+        <!-- Cabecera modular -->
+        <section class="book-head">
+          <div class="title-row">
+            <div class="title-text">
+              <span class="eyebrow">Libro activo</span>
+              <h1 id="bookTitle">Cargando…</h1>
+              <p id="bookMeta" class="meta"></p>
+            </div>
+            <div class="title-actions" id="titleActions"></div>
           </div>
-          <div class="title-actions" id="titleActions"></div>
-        </div>
-        <dl id="bookStats" class="stats"></dl>
-      </section>
+          <dl id="bookStats" class="stats"></dl>
+        </section>
 
-      <section id="adminStrip" class="admin-strip" hidden aria-label="Carga de CSV">
-        <label id="dropzone" class="dropzone" tabindex="0">
-          <input id="fileInput" type="file" accept=".csv,text/csv" hidden aria-describedby="fileHint">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V4"/><path d="m7.5 8.5 4.5-4.5 4.5 4.5"/><path d="M5 15v4h14v-4"/></svg>
-          <span><strong>Subir CSV de este libro</strong> <span class="muted">arrástralo aquí o haz clic</span></span>
-          <span id="fileHint" class="hint">Solo .csv exportado de Excel</span>
-        </label>
-        <div class="segmented" role="radiogroup" aria-label="Al subir un CSV">
-          <label><input type="radio" name="mode" value="replace" checked><span>Reemplazar todo</span></label>
-          <label><input type="radio" name="mode" value="append"><span>Agregar filas</span></label>
-        </div>
-      </section>
+        <!-- Barra horizontal de búsqueda (solo visible en modo Consulta) -->
+        <form id="filters" class="filters-bar" role="search" onsubmit="return false">
+          <div class="filters-grid">
+            <label class="field">
+              <span>Departamento</span>
+              <select id="depSelect"></select>
+            </label>
+            <label class="field">
+              <span>Municipio</span>
+              <select id="munSelect"></select>
+            </label>
+            <label class="field field-search">
+              <span>Filtrar columna o concepto</span>
+              <span class="input-icon">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4-4"/></svg>
+                <input id="colInput" type="search" autocomplete="off" placeholder="Ej.: tarifa, empleo, Art.">
+              </span>
+            </label>
+            <button id="clearFilters" class="btn btn-clear" type="button">Limpiar</button>
+          </div>
+        </form>
 
-      <div id="filterSummary" class="filter-summary" hidden></div>
-      <div id="content" class="content"></div>
-    </main>
+        <!-- Franja de administración -->
+        <section id="adminStrip" class="admin-strip" hidden aria-label="Carga de CSV">
+          <label id="dropzone" class="dropzone" tabindex="0">
+            <input id="fileInput" type="file" accept=".csv,text/csv" hidden aria-describedby="fileHint">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V4"/><path d="m7.5 8.5 4.5-4.5 4.5 4.5"/><path d="M5 15v4h14v-4"/></svg>
+            <span><strong>Subir CSV de este libro</strong> <span class="muted">arrástralo aquí o haz clic</span></span>
+            <span id="fileHint" class="hint">Solo .csv exportado de Excel</span>
+          </label>
+          <div class="segmented" role="radiogroup" aria-label="Al subir un CSV">
+            <label><input type="radio" name="mode" value="replace" checked><span>Reemplazar todo</span></label>
+            <label><input type="radio" name="mode" value="append"><span>Agregar filas</span></label>
+          </div>
+        </section>
+
+        <div id="content" class="content"></div>
+      </main>
+    </div>
   </div>
 
   <div id="scrim" class="scrim" hidden></div>
