@@ -325,11 +325,14 @@ function matchesColumn(name) {
       } else {
         html += `<button class="btn" data-act="new" type="button"${total ? "" : " disabled"}>Nuevo registro</button>`;
       }
-    } else if (total) {
-      html += `<button class="btn" data-act="download" type="button">Descargar CSV</button>`;
-    }
-    $("titleActions").innerHTML = html;
-  }
+    
+      if (total) {
+        html += `<button class="btn" data-act="download" type="button">Descargar CSV</button>`;
+      }
+
+} else if (total) {
+  // En Consulta ya no se muestra Descargar CSV
+}
 
   function skeleton() {
     const row = `<tr>${"<td><div></div></td>".repeat(6)}</tr>`;
